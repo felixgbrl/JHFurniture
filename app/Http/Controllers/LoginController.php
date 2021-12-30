@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 use Illuminate\Http\Request;
 
@@ -12,20 +14,36 @@ class LoginController extends Controller
         return view('login');
     }
 
-    public function authenticate(Request $request)
-    {
+    public function authenticate(Request $request){
         $credentials = $request->validate([
             'email' => 'required|email:dns',
             'password' => 'required',  
         ]);
 
+        $tokenexpired = 60;
 
-        if(Auth::attempt($credentials)){
-            $request->session()->regenerate();
-         
-            return redirect()->intended('/');
+        $remember = $request['remember'];
+      
+
+        if($remember){
+            if(Auth::attempt($credentials, true)){
+                $request->session()->regenerate();
+                Cookie::queue('email', $credentials['email'], $tokenexpired);
+                Cookie::queue('password', $credentials['password'], $tokenexpired);
+             
+                return redirect()->intended('/');
+            }
+                return back()->with('loginError', 'login Failed!');
+        }else{
+            if(Auth::attempt($credentials)){
+                $request->session()->regenerate();
+                Cookie::queue('email', $credentials['email'], -$tokenexpired);
+                Cookie::queue('password', $credentials['password'], -$tokenexpired);
+             
+                return redirect()->intended('/');
+            }
+                return back()->with('loginError', 'login Failed!');
         }
-            return back()->with('loginError', 'login Failed!');
     }
 
 
@@ -35,6 +53,12 @@ class LoginController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->intended('/');
+        
+
+        return redirect('/');
     }
+
+    
+
+   
 }
