@@ -24,11 +24,20 @@
           <li class="nav-item me-5">
             <a class="nav-link active text-white" href="#">View</a>
           </li>
+         
           <li class="nav-item me-5">
             <a class="nav-link active text-white" href="/login">Login</a>
           </li>
           <li class="nav-item me-5">
             <a class="nav-link active text-white" href="/register">Register</a>
+          </li>
+          <li>
+            <form action="/logout" method="POST">
+              @csrf
+                <div class=" card-update">
+                    <button type="submit" class="btn btn-xl btn-info">Log out</button> 
+                </div>
+            </form>
           </li>
         </ul>
       </div>
