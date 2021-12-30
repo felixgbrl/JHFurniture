@@ -11,7 +11,7 @@
     <div class="container">
       <nav>
         <div class="container-fluid">
-          <a class="text-white navbar-brand" href="#">JH Furniture</a>
+          <a class="text-white navbar-brand" href="/">JH Furniture</a>
         </div>
       </nav>
     </div>
@@ -24,20 +24,23 @@
           <li class="nav-item me-5">
             <a class="nav-link active text-white" href="#">View</a>
           </li>
+         
           <li class="nav-item me-5">
             <a class="nav-link active text-white" href="/login">Profile</a>
           </li>
           <li class="nav-item me-5">
             <a class="nav-link active text-white" href="/addfurniture">Add Furniture</a>
           </li>
+          </li> 
           <li>
             <form action="/logout" method="POST">
               @csrf
-                <div class=" card-update">
+                <div class="card-update">
                     <button type="submit" class="btn btn-xl btn-info">Log out</button> 
                 </div>
             </form>
-          </li>
+          </li> 
+          <li>
         </ul>
       </div>
     </div>
