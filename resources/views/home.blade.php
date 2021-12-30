@@ -1,12 +1,27 @@
 @auth
     @if (Auth::user()->role == 'Admin')
-        @include("Layouts.admin")
+        @include("layouts.admin")
+       
         <div class="bg-image">
             @if (session()->has('success_input'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('success_input') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
+            @endif
+
+            @if (session()->has('success_update'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success_update') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+
+            @if (session()->has('success_delete'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success_delete') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             @endif
 
             <h1 class = "header text-center text-secondary">
@@ -18,8 +33,9 @@
                         <div class="row">
                             <div class="card-detail">
                                 <div class="image-detail text-center">
-                                    <a class="card-image" href="#">
-                                        <img src="{{ asset('storage/'. $furniture->image) }}", width="100px", height="95px">
+                                    <a class="card-image" href="/detail/{{$furniture->name}}">
+                                        <img src="{{ asset('storage/app/furnitures'.$furniture->image) }}", width="100px", height="95px">
+                                        
                                     </a>
                                 </div>
                     
@@ -35,10 +51,10 @@
                         <div class="bg-primary">
                             <div class="card-button m-3">
                                 <div class=" card-update">
-                                    <a href="#" class="btn btn-warning" role="button" aria-pressed="true">Update</a>
+                                    <a href="/updateFurniture/{{ $furniture->furniture_name }}" class="btn btn-warning" role="button" aria-pressed="true">Update</a>
                                 </div>
                                 <div class=" card-update">
-                                    <a href="#" class="btn btn-danger" role="button" aria-pressed="true">Delete</a>                      
+                                    <a href="/deleteFurniture/{{ $furniture->id }}" class="btn btn-danger" role="button" aria-pressed="true">Delete</a>                      
                                 </div>
                             </div>
                         </div>
@@ -47,7 +63,7 @@
             </div>  
         </div>
     @else
-        @include("Layouts.member")
+        @include("layouts.member")
         <div class="bg-image">
             <h1 class = "header text-center text-secondary">
                 Welcome, {{ Auth::user()->name }} to JH Furniture 
@@ -59,7 +75,7 @@
                         <div class="row">
                             <div class="card-detail">
                                 <div class="image-detail text-center">
-                                    <a class="card-image" href="#">
+                                    <a class="card-image" href="/detail/{{$furniture->name}}">
                                         <img src="{{ asset('storage/'. $furniture->image) }}", width="100px", height="95px">
                                     </a>
                                 </div>
@@ -88,7 +104,7 @@
 @endauth
 
 @guest
-    @include("Layouts.layout")
+    @include("layouts.guest")
     <div class="bg-image">
         <h1 class = "header text-center text-secondary">
             Welcome to JH Furniture 
@@ -100,7 +116,7 @@
                     <div class="row">
                         <div class="card-detail">
                             <div class="image-detail text-center">
-                                <a class="card-image" href="#">
+                                <a class="card-image" href="/detail/{{$furniture->id}}">
                                     <img src="{{ asset('storage/'. $furniture->image) }}", width="100px", height="95px">
                                 </a>
                             </div>
