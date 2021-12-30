@@ -1,4 +1,4 @@
-@extends('Layouts.layout')
+@extends('layouts.guest')
 @section('container')
 
 
