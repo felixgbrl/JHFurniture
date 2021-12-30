@@ -26,9 +26,55 @@ class FurnitureController extends Controller
         return redirect('/');
     }
 
+    public function updateFurniture(Furniture $furniture, Request $request){
+
+    
+        $update = $request->validate([
+            'furniture_name' => 'required|max:15',
+            'furniture_price' => 'required|numeric|between:5000,10000000',
+            // 'furniture_type' => 'required',
+            // 'color' => 'required',
+            'image' => 'file|mimes:jpg,png,jpeg',
+        ]);
+
+        if($request->hasFile('image')){
+            $update['image'] = $request->file('image')->store('furnitures');
+            Storage::delete($furniture->image);
+        }else{
+            $update['image'] = $furniture->image;
+        }
+             
+
+        Furniture::where('id', $furniture->id)
+                ->update($update);
+        
+        return redirect('/')->with('success_update', 'Furniture has been updated');
+    }
+
+    public function updateIndex(Furniture $furniture){
+        
+        return view('update', [
+            'furniture' => $furniture
+            
+        ]);
+    }
+
+    public function deleteFurniture(Furniture $furniture){
+        Furniture::where('id', $furniture->id)
+                ->delete($furniture);
+
+        return redirect('/')->with('success_delete', 'Furniture has been deleted');
+
+    }
+
+    
+
+
     public function index(){
-       return view('/home',[
-        'furnitures'=>Furniture::inRandomOrder()->take(4)->get()
+        $furniture = Furniture::inRandomOrder()->take(4)->get();
+
+        return view('home',[
+        'furnitures'=>$furniture
        ]);
     }
 
@@ -39,7 +85,11 @@ class FurnitureController extends Controller
         ]);
     }
 
-  
+    public function displayDetail(Furniture $furniture){
+        return view('detail', [
+            'furniture' => $furniture
+        ]);
+    }
 
 
     
