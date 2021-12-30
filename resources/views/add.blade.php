@@ -36,8 +36,6 @@
                         </div>
                         <button type="submit" class="btn btn-success mt-3" style="background-color:#b452ff">Add</button>
                     </form>
-                
-            
         </div>
     </div>
 </div> 
