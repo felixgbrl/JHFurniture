@@ -1,4 +1,4 @@
-@extends('Layouts.layout')
+@extends('layouts.guest')
 @section('container')
 
 
@@ -19,7 +19,7 @@
         </div>
 
         <div class="form-floating">
-          <input type="email" class="form-control mb-5  @error('Email') is-invalid @enderror" id="email" placeholder="name@example.com" name="email">
+          <input type="email" class="form-control mb-5  @error('email') is-invalid @enderror" id="email" placeholder="name@example.com" name="email">
           <label for="email">Enter your email</label>
           @error('email')
               <div class="text-danger">{{ $message }} </div>
